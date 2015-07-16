@@ -1,0 +1,11 @@
+#! /usr/bin/env bash
+echo 'Killing yard server...'
+ps aux | grep 'yard server' | grep -v 'grep' | awk '{ print $2 }' | xargs kill
+echo 'Removing old docs...'
+rm -rf .yardoc
+echo 'Pulling new code...'
+cd /home/vagrant/yard && git pull
+echo 'Starting yard server...'
+export PATH=/home/vagrant/.rbenv/shims:/home/vagrant/.rbenv/bin:/usr/bin:$PATH;
+eval "$(rbenv init -)"
+yard server -d
